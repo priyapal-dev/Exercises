@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>css 7</title>
+        <style>
+            .container{
+                display: flex;
+                flex-direction: column;
+                height: 100vh;
+                width: 100%;
+            }
+            .container > div{
+                display: flex;
+                flex-direction: row;
+
+            }
+            .container> div > div{
+                background-color: grey;
+                border-radius: 5px;
+                height: 100px;
+                margin: 5px;
+                padding: 10px;
+                color: white;
+            }
+            .a,.b{
+                width: 50%;
+            }
+            .c{
+                width: 25%;
+            }
+            .d{
+                flex-grow: 1;
+            }
+            .e{
+                flex-grow: 1;
+            }
+            @media (max-width: 600px){
+                .container > div{
+                    display: flex;
+                    flex-direction: column;
+                }
+                .container> div > div{
+                    background-color: rgb(240, 208, 149);
+                    border: 1px solid black;
+                    border-radius: 0;
+                    margin: 0;
+                    height: 100px;
+                    text-align: center;
+                    color: black;
+                    width: 100vw;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <div class="container1">
+                <div class="a">A</div>
+                <div class="b">B</div>
+            </div>
+            <div class="container2">
+                <div class="c">C</div>
+                <div class="d">D</div>
+            </div>
+            <div class="container3">
+                <div class="e">E</div>
+            </div>
+        </div>
+    </body>
+</html>
