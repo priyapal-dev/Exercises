@@ -5,12 +5,41 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>bootstrap 15</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script> 
     <style>
-        .form-check.required .control-label:after {
-            content:"*";color:red;
+        .hide{
+            display: none;
+        }
+        .confirm:after {
+            content:"*";
+            color:red;
         }
     </style>
+    <script>
+        function showOne(){
+            document.getElementById('collapseOne').style.display='block';
+        }
+        function hideOne(){
+            document.getElementById('collapseOne').style.display='none';
+        }
+        function showTwo(){
+            document.getElementById('collapseTwo').style.display='flex';
+        }
+        function hideTwo(){
+            document.getElementById('collapseTwo').style.display='none';
+        }
+        function showProvider(){
+            document.getElementById('collapseProvider').style.display='block';
+        }
+        function hideProvider(){
+            document.getElementById('collapseProvider').style.display='none';
+        }
+        function showDVA(){
+            document.getElementById('collapseDVA').style.display='block';
+        }
+        function hideDVA(){
+            document.getElementById('collapseDVA').style.display='none';
+        }
+    </script>
 </head>
 <body>
     <div class="container">
@@ -202,12 +231,68 @@
                 <div>
                     Is the next of Kin same as your emergency (if yes, you do not need to fill this section)
                     <div class="form-check">
-                        <input class="form-check-input" type="radio" name="radioOptions" id="nokyes" value="nokyes">
+                        <input class="form-check-input" type="radio" name="collapseGroup" id="nokyes" value="nokyes" onclick="hideOne();">
                         <label class="form-check-label" for="nokyes">Yes</label>
                     </div>
                     <div class="form-check">
-                        <input class="form-check-input" type="radio" name="radioOptions" id="nokno" value="nokno">
+                        <input class="form-check-input" type="radio" name="collapseGroup" id="nokno" value="nokno" onclick="showOne();">
                         <label class="form-check-label" for="nokno">No</label>
+                    </div>
+                </div>
+                <div class="hide" id="collapseOne">
+                    <div class="row my-2">
+                        <div class="form-group col-md-6">
+                            <label for="nokName">Next of Kin - Name</label>
+                            <input type="text" class="form-control" id="nokName">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="nokEmail">Next of kin - Email</label>
+                            <input type="email" class="form-control" id="nokEmail">
+                        </div>
+                    </div>
+                    <p class="my-2">Next of kin - Relationship</p>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="parents">
+                        <label class="form-check-label" for="parents">Parents</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="partner">
+                        <label class="form-check-label" for="partner">Spouse/ Partner</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="child">
+                        <label class="form-check-label" for="child">Children</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="friend">
+                        <label class="form-check-label" for="friend">Friend</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="other">
+                        <label class="form-check-label" for="other">Other</label>
+                    </div>
+                    <div class="row my-2">
+                        <div class="form-group col-md-6">
+                            <label for="nokPhone">Next of Kin Home Phone</label>
+                            <input type="number" class="form-control" id="nokPhone">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="nokMobile">Next of kin - Mobile Phone</label>
+                            <input type="number" class="form-control" id="nokMobile">
+                        </div>
+                    </div>
+                    <p>Best way to contact your next of Kin</p>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" id="nokContact"></input>
+                        <label for="nokContact" class="form-check-label">Home Ph</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" id="nokMobileph"></input>
+                        <label for="nokMobileph" class="form-check-label">Home Ph</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" id="nokWork"></input>
+                        <label for="nokWork" class="form-check-label">Work Ph</label>
                     </div>
                 </div>
                 <div class="row bg-primary fw-bold text-white p-2 my-3">
@@ -240,13 +325,24 @@
                     <div class="col-12">
                         Do you use a different name in your medicare card?
                         <div class="form-check">
-                            <input class="form-check-input" type="radio" name="radioOptions" id="cardYes" value="cardYes">
+                            <input class="form-check-input" type="radio" name="radioOptions" id="cardYes" value="cardYes" onclick="showTwo();">
                             <label class="form-check-label" for="cardYes">Yes</label>
                         </div>
                         <div class="form-check">
-                            <input class="form-check-input" type="radio" name="radioOptions" id="cardNo" value="cardNo">
+                            <input class="form-check-input" type="radio" name="radioOptions" id="cardNo" value="cardNo" onclick="hideTwo();">
                             <label class="form-check-label" for="cardNo">No</label>
                         </div>
+                    </div>
+                </div>
+                <div class="row my-1 hide" id="collapseTwo">
+                    <div class="form-text"><em>If you use Alias please write the Alias name & surname</em></div>                  
+                    <div class="form-group col-md-6">
+                        <label for="medicareFirstname">Medicare First Name</label>
+                        <input type="text" class="form-control" id="medicareFirstname">
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="medicareLastname">Medicare Surname</label>
+                        <input type="text" class="form-control" id="medicareLastname">
                     </div>
                 </div>
                 <div class="row my-1">
@@ -271,13 +367,31 @@
                 <div class="row my-2">
                     Do you have private Medical insurance
                         <div class="form-check">
-                            <input class="form-check-input" type="radio" name="radioOptions" id="insuranceYes" value="cardYes">
+                            <input class="form-check-input" type="radio" name="radioOptions" id="insuranceYes" value="cardYes" onclick="showProvider();">
                             <label class="form-check-label" for="insuranceYes">Yes</label>
                         </div>
                         <div class="form-check">
-                            <input class="form-check-input" type="radio" name="radioOptions" id="insuranceNo" value="cardNo">
+                            <input class="form-check-input" type="radio" name="radioOptions" id="insuranceNo" value="cardNo" onclick="hideProvider();">
                             <label class="form-check-label" for="insuranceNo">No</label>
                         </div>
+                </div>
+                <div class="hide" id="collapseProvider">
+                    <div class="row my-1">
+                        <div class="form-group col-12">
+                            <label for="provider">Provider</label>
+                            <input type="text" class="form-control" id="provider">
+                        </div>
+                    </div>
+                    <div class="row my-1">
+                        <div class="form-group col-md-6">
+                            <label for="membersip">Membership No.</label>
+                            <input type="number" class="form-control" id="membersip">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="memberExpiry">Expiry</label>
+                            <input type="text" class="form-control" id="memberExpiry">
+                        </div>
+                    </div>
                 </div>
                 <div class="row bg-primary fw-bold text-white p-2 my-3">
                     PENSION / HCC/DVA Card
@@ -285,25 +399,104 @@
                 <div class="row my-2">
                     Do you have an aged pension card, healthcare card or a DVA card
                     <div class="form-check">
-                        <input class="form-check-input" type="radio" name="radioOptions" id="healthCardYes" value="cardYes">
+                        <input class="form-check-input" type="radio" name="radioOptions" id="healthCardYes" value="cardYes" onclick="showDVA();">
                         <label class="form-check-label" for="healthCardYes">Yes</label>
                     </div>
                     <div class="form-check">
-                        <input class="form-check-input" type="radio" name="radioOptions" id="healthCardNo" value="cardNo">
+                        <input class="form-check-input" type="radio" name="radioOptions" id="healthCardNo" value="cardNo" onclick="hideDVA();">
                         <label class="form-check-label" for="healthCardNo">No</label>
                     </div>
+                </div>
+                <div class="hide" id="collapseDVA">
+                <div class="row my-2">
+                    <div class="col-md-4">
+                        <p>Card Type</p>
+                        <div class="form-check form-check-inline">
+                            <input type="radio" class="form-check-input" name="cardType" id="HCC" value="cardTypeHCC">
+                            <label for="HCC" class="form-check-label">HCC</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input type="radio" class="form-check-input" name="cardType" id="pension" value="cardTypePension">
+                            <label for="pension" class="form-check-label">Pension</label>
+                        </div>
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label for="cardNo">Card No.</label>
+                        <input type="number" class="form-control" id="cardNo">
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label for="cardExpiry">Card Expiry</label>
+                        <input type="text" class="form-control" id="cardExpiry">
+                        <div class="form-text">(mm/yy)</div>
+                    </div>
+                </div>
+                <div class="row my-2">
+                    <div class="col-md-6">
+                        <p>DVA Card Type</p>
+                        <div class="form-check form-check-inline">
+                            <input type="radio" class="form-check-input" name="cardColor" id="gold">
+                        <label for="gold" class="form-check-label">Gold</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input type="radio" class="form-check-input" name="cardColor" id="white">
+                            <label for="white" class="form-check-label">White</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input type="radio" class="form-check-input" name="cardColor" id="lilac">
+                            <label for="lilac" class="form-check-label">Lilac</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input type="radio" class="form-check-input" name="cardColor" id="orange">
+                            <label for="orange" class="form-check-label">Orange</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input type="radio" class="form-check-input" name="cardColor" id="blue">
+                            <label for="blue" class="form-check-label">Blue</label>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="dvaNo">DVA No.</label>
+                            <input type="number" class="form-control" id="dvaNo">
+                        </div>
+                    </div>
+                </div>
                 </div>
                 <div class="row bg-primary fw-bold text-white p-2 my-3">
                     SIGNATURE
                 </div>
                 <div class="form-check required">
                     <input class="form-check-input" type="checkbox" value="" id="sign">
-                    <label class="form-check-label " for="sign">
+                    <label class="form-check-label confirm" for="sign">
                         I confirm that above information I have provided is true, complete and accurate.
                     </label>
                 </div>
-                
+                <div class="row my-2">
+                    <div class="col-md-6">
+                        <label>Patient/ Guardian Signature</label>
+                            <canvas class="border rounded" id="signature-pad" width="550" height="100"></canvas>  
+                            <div class="d-flex justify-content-between">
+                                <div>
+                                    <a class="text-decoration-none text-dark fw-bold" href="#">Draw Signature</a> |
+                                    <a class="text-decoration-none text-dark" href="#">Type Signature</a>
+                                </div>
+                                <div>
+                                   <a class="text-dark" href="#">Clear</a>
+                                </div>
+                            </div>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="todayDate">Today's Date</label>
+                        <input type="date" class="form-control" id="todayDate">
+                    </div>
+                </div>
+                <div class="col-2 mx-auto my-4 text-center">
+                    <button type="button" class="btn btn-primary">Submit</button>
+                    <div><a href="#">Save and Complete later</a></div>
+                </div>
         </form>
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script> 
+
 </body>
 </html>
