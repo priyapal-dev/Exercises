@@ -13,6 +13,9 @@
             content:"*";
             color:red;
         }
+        a:hover{
+            text-decoration: solid !important;
+        }
     </style>
     <script>
         function showOne(){
@@ -476,7 +479,7 @@
                         <label>Patient/ Guardian Signature</label>
                             <canvas class="border rounded" id="signature-pad" width="550" height="100"></canvas>  
                             <div class="d-flex justify-content-between">
-                                <div>
+                                <div class="signature">
                                     <a class="text-decoration-none text-dark fw-bold" href="#">Draw Signature</a> |
                                     <a class="text-decoration-none text-dark" href="#">Type Signature</a>
                                 </div>
