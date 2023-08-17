@@ -1,0 +1,63 @@
+.container{
+    width: 96vw;
+    height: 96vh;
+    position: relative;
+}
+.red, .black, .yellow, .green, .blue{
+    width: 32vw;
+    height: 32vh;
+    position: absolute;
+}
+.red{
+    top: 0;
+    left: 0;
+    background-color: red;
+}
+.black{
+    top: 0;
+    right: 0;
+    background-color: black;
+}
+.yellow{
+    top: 32vh;
+    left: 32vw;
+    background-color: yellow;
+}
+.green{
+    top: 64vh;
+    left: 0;
+    bottom: 0;
+    background-color: green;
+}
+.blue{
+    top: 64vh;
+    left: 32vw;
+    bottom: 0;
+    background-color: blue;
+}
+@media (max-width:360px) {
+    .container{
+        width: 100vw;
+    }
+    .red, .black, .yellow, .green, .blue{
+        width: 100vw;
+        height: 20vh;
+        left: 0;
+    }
+    .red{
+        top: 0;
+    }
+    .black{
+        top: 20vh;
+    }
+    .yellow{
+        top: 40vh;
+    }
+    .green{
+        top: 60vh;
+    }
+    .blue{
+        top: 80vh;
+    }
+}
+                

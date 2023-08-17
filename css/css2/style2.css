@@ -1,0 +1,51 @@
+.container{
+    height: 96vh;
+    width: 96vw;
+}
+.element{
+    height: 32vh;
+    width: 32vw;
+}
+.container1{
+    display: flex;
+    justify-content: space-between;
+}
+.container2{
+    display: flex;
+    justify-content: center;
+}
+.container3{
+    display: flex;
+    justify-content: start;
+}
+.red{
+    background-color: red;
+}
+.black{
+    background-color: black;
+}
+.yellow{
+    background-color: yellow;
+}
+.green{
+    background-color: green;
+}
+.blue{
+    background-color: blue;
+}
+@media only screen and (max-width: 360px){
+    .container{
+        height: 95vh;
+    }
+    .container1, .container2, .container3{
+        
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+    }
+    .element{
+        width: 100%;
+        height: 19vh;
+    }
+    
+}

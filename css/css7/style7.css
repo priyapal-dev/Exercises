@@ -1,0 +1,51 @@
+.container{
+    display: flex;
+    flex-direction: column;
+    height: 96vh;
+    width: 100%;
+}
+.container1, .container2, .container3{
+    display: flex;
+    flex-direction: row;
+    height: 33vh;
+}
+.a, .b,.c,.d,.e{
+    background-color: grey;
+    border-radius: 5px;
+    margin: 5px;
+    padding: 10px;
+    color: white;
+}
+.a,.b{
+    width: 50%;
+}
+.c{
+    width: 25%;
+}
+.d{
+    width: 75%;
+}
+.e{
+    width: 100%;
+}
+@media (max-width: 360px){
+    .container1, .container2, .container3{
+        display: block;
+        width: 95vw;
+        height: 100vh;
+    }
+    .a, .b,.c,.d,.e{
+        background-color: rgb(240, 208, 149);
+        border: 1px solid black;
+        border-radius: 0;
+        margin: 0;
+        padding: 0;
+        text-align: center;
+        color: black;
+        width: 100%;
+        height: 19vh;
+    }
+
+    
+}
+                
