@@ -1,0 +1,85 @@
+<div class="container h-100">
+    <form class="formblock p-2 mx-auto" (ngSubmit)="onSubmit()" #form = "ngForm">
+      <div class="profile rounded-circle">
+          <div class="profile1 rounded-circle">
+              <div class="profile2 rounded-circle">
+                  <i class="bi bi-person-fill"></i>
+              </div>
+          </div>
+      </div>
+      <div class="cross"><i class="bi bi-x-lg fs-5"></i></div>
+      <h2 class="text-center mt-5 mb-4">REGISTER NOW</h2>
+      <div class="row justify-content-center">
+          <div class="col-5 entry d-flex">
+              <i class="bi bi-person-fill"></i>
+              <div class="form-group">
+                  <input type="text" placeholder="First Name" class="form-control" id="firstname" [(ngModel)]="sample.firstname" required maxlength="15" #firstname="ngModel" name="firstname">
+                  <span *ngIf="submitted && firstname.errors?.['required']"><small>*Firstname is required</small></span>
+              </div>
+          </div>              
+          <div class="col-5 entry d-flex">
+              <i class="bi bi-person-fill"></i>
+              <div class="form-group">
+                  <input type="text" placeholder="Last Name" class="form-control" id="lastname" [(ngModel)]="sample.lastname" required maxlength="15" #lastname="ngModel" name="lastname">
+                  <span *ngIf="submitted && lastname.errors?.['required']"><small>*Lastname is required</small></span>
+              </div>
+          </div> 
+      </div>
+      <div class="row justify-content-center my-4">
+          <div class="col-5 entry d-flex">
+              <i class="bi bi-person-fill"></i>
+              <div class=" form-group">
+                  <input type="text" placeholder="Username" class="form-control" id="username" [(ngModel)]="sample.username" required maxlength="15" #username="ngModel" name="username">
+                  <span *ngIf="submitted && username.errors?.['required']"><small>*Username is required</small></span>     
+              </div>
+          </div>              
+          <div class="col-5 entry d-flex">
+              <i class="bi bi-chat-right-fill"></i>
+              <div class="form-group">
+                  <input type="text" placeholder="E-mail" class="form-control" id="email" [(ngModel)]="sample.email" required maxlength="15" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" #email="ngModel" name="email">
+                  <!-- <span *ngIf="email.touched"> -->
+                    <span *ngIf="submitted && email.errors?.['required']"><small>*Email is required</small></span>
+                    <span *ngIf="submitted && email.errors?.['pattern']"><small>Invalid email!</small></span>
+                  <!-- </span> -->
+               </div>
+          </div> 
+      </div>
+      <div class="row justify-content-center">
+          <div class="col-5 entry d-flex">
+              <i class="bi bi-lock-fill"></i>
+              <div class=" form-group">
+                  <input type="password" placeholder="Password" class="form-control" id="password" [(ngModel)]="sample.password" required pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z]).{8,}" name="password" #password="ngModel">
+                  <!-- <span *ngIf="password.touched"> -->
+                    <span *ngIf="submitted && password.errors?.['required']"><small>*Password is required</small></span>
+                    <span *ngIf="submitted && password.errors?.['pattern']"><small>(must contain 1 uppercase, 1 lowercase, 1 digit, 1 special character and minimum length 8)</small></span>
+                  <!-- </span> -->
+              </div>
+          </div>              
+          <div class="col-5 entry d-flex">
+              <i class="bi bi-lock-fill"></i>
+              <div class="form-group">
+                  <input type="password" placeholder="Confirm Password" class="form-control" id="confirm" [(ngModel)]="sample.confirmPassword" required #confirm="ngModel" name="confirm">
+                  <!-- <span *ngIf="confirm.invalid && confirm.touched"> -->
+                    <span *ngIf="submitted && confirm.errors?.['required']"><small>*Confirm Password is required</small></span>
+                    <!-- <span *ngIf="confirm && password !== confirm">Passwords do not match.</span> -->
+                    <span *ngIf="submitted && sample.confirmPassword!=='' && !confirmPasswordMatch() &&(password.touched || confirm.touched)">
+                        <small>Confirm Password do not match.</small>
+                    </span>
+                  <!-- </span> -->
+              </div>
+          </div> 
+      </div>
+      <div class="row justify-content-center my-4 mx-auto">
+          <div class="col-4 form-check">
+              <input class="form-check-input" type="checkbox" id="verify" [(ngModel)]="sample.verify" required name="verify" #verify="ngModel"> 
+              <label class="form-check-label" for="verify">
+                  I'm not a robot
+              </label>
+            </div>
+            <span class="text-center" *ngIf="submitted && verify.errors?.['required']"><small>*Please check the input box</small></span>
+      </div>
+      <div class="col-3 mx-auto submit my-4">
+          <button class="btn btn-success fw-bold p-3 fs-5 border-0 rounded-3 " type="submit" >SUBMIT</button>
+      </div>
+    </form>      
+  </div>

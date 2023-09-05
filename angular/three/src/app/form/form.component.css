@@ -1,0 +1,67 @@
+@import "~bootstrap-icons/font/bootstrap-icons.css";
+
+.formblock{
+    background-color: #2048c4;
+    color: white;
+    box-shadow: 0 7px rgb(4, 143, 89);
+    width: 500px;
+    position: relative;
+    margin-top: 20vh;
+}
+.profile{
+    background-color: white;
+    width: 210px;
+    height: 210px;
+    position: absolute;
+    top: -120px;
+    left: 150px;
+    border: 7px solid #55aeda;
+}
+.profile1{
+    width: 180px;
+    height: 180px;
+    position: inherit;
+    top: 8px;
+    left: 8px;
+    background-color: #1de5af;
+    border: 7px solid #55aeda;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.profile1 i{
+    font-size: 150px;
+    color: #2048c4;
+}
+.cross{
+    position: absolute;
+    right: 12px;
+    color: #1de5af;
+}
+h2{
+    color: #1de5af;
+    padding-top: 40px;
+}
+.entry{
+    position: relative;
+}
+
+.entry i{
+    font-size: 20px;
+    position: absolute;
+    width: 36px;
+    left: 12px;
+    color: rgb(3, 88, 3);
+    background-color: #1de5af;
+    padding: 4px 6px 4px 9px;
+    border-radius: 5px 0 0 5px;
+}
+.form-control{
+    padding-left: 45px;
+}
+.btn-success{
+    background-color: #1de5af;
+}
+.submit button{
+    box-shadow: 0 7px darkblue;
+}

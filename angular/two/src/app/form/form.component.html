@@ -1,0 +1,105 @@
+<form class="container" (ngSubmit)="onSubmit()" [formGroup]="form">
+    <h1 class="text-center">Reservation Form</h1>
+    <div class="row form-group my-3">
+        <div class="col-4">
+            <label for="username">Name*</label>
+        </div>
+        <div class="col-8">
+            <input id="username" type="text" class="form-control" formControlName="username">
+            <span class="text-danger" *ngIf="submitted && user?.['username']?.errors"><small>*Name is required</small></span>
+        </div>
+    </div>
+    <div class="row form-group my-3">
+        <div class="col-4">
+            <label for="email">Email*</label>
+        </div>
+        <div class="col-8">
+            <input id="email" type="email" class="form-control" formControlName="email">
+            <span class="text-danger" *ngIf="submitted && user?.['email']?.errors"><small>*Email is required</small></span>
+        </div>
+    </div>
+    <div class="row form-group my-3">
+        <div class="col-4">
+            <label for="room">Room Type</label>
+        </div>
+        <div class="col-8">
+            <select class="form-control form-select" id="room" formControlName="room">
+                <option selected>Select</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+            </select>
+        </div>
+    </div>
+    <div class="row form-group my-3">
+        <div class="col-4">
+            <label for="arrival">Arrival Date*</label>
+        </div>
+        <div class="col-8">
+            <input id="arrival" type="date" class="form-control" formControlName="arrival">
+            <span class="text-danger" *ngIf="submitted && user?.['arrival']?.errors"><small>*Arrival Date is required</small></span>
+        </div>
+    </div>
+    <div class="row form-group my-3">
+        <div class="col-4">
+            <label for="departure">Departure Date*</label>
+        </div>
+        <div class="col-8">
+            <input id="departure" type="date" class="form-control" formControlName="departure">
+            <span class="text-danger" *ngIf="submitted && user?.['departure']?.errors"><small>*Departure Date is required</small></span>
+        </div>
+    </div>
+    <div class="row form-group my-3">
+        <div class="col-4">
+            <label for="guests">Number of Guests*</label>
+        </div>
+        <div class="col-3">
+            <select class="form-control form-select" id="guests" formControlName="guests">
+                <option selected>Select</option>
+                <option value="0">NA</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+            </select>
+            <span class="text-danger" *ngIf="submitted && user?.['guests']?.errors"><small>*Number of Guests is required</small></span>
+        </div>
+    </div>
+    <div class="row form-group my-3">
+        <div class="col-4">
+            <label for="pickup">Free Pickup</label>
+        </div>
+        <div class="col-8">
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" id="yes" value="yes" formControlName="pickup" >
+                <label class="form-check-label" for="yes">Yes</label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" id="no" value="no" formControlName="pickup" >
+                <label class="form-check-label" for="no">No</label>
+              </div>
+        </div>
+    </div>
+    <div class="row form-group my-3">
+        <div class="col-4">
+            <label for="flight">Flight Number</label>
+        </div>
+        <div class="col-8">
+            <input id="flight" type="text" class="form-control" formControlName="flight">
+        </div>
+    </div>
+    <div class="row form-group my-3">
+        <div class="col-4">
+            <label for="request">Special Requests</label>
+        </div>
+        <div class="col-8">
+            <textarea rows="4" id="request" class="form-control" formControlName="request"></textarea>
+        </div>
+    </div>
+    <div class="text-center">
+        <button class="btn btn-primary" type="submit">Submit</button>
+    </div>
+</form>

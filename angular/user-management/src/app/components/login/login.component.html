@@ -1,0 +1,15 @@
+<h1 class="display">Login Component</h1>
+<form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+<div class="form-group my-3">
+    <label for="username">Username</label>
+    <input type="text" id="username" name="username" class="form-control" formControlName="username">
+</div>
+<div class="form-group my-3">
+    <label for="password">Password</label>
+    <input type="password" id="password" name="password" class="form-control" formControlName="password">
+</div>
+<div *ngIf="success===false" class='text-danger my-3'>Wrong Details! try again</div>
+
+<button class="btn btn-primary" type="submit">Login</button>
+<button class="btn btn-primary mx-3" routerLink="../register">Register</button>
+</form>
