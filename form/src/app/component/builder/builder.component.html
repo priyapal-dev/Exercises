@@ -1,0 +1,83 @@
+<div class="container my-3">
+    <h1>Form Builder</h1>
+    
+    <div class="card my-3" *ngFor="let item of questionData; index as i">
+        <div class="card-header">
+            {{item.questionText}}
+            <span class="badge bg-danger" *ngIf="item.required">Required</span>
+        </div>
+        <div class="card-body">
+            <textarea rows="4" class="w-100" *ngIf="item.questionType==='para'; else elseBlock" [(ngModel)]="answerData[i]"></textarea>
+            <ng-template #elseBlock>
+                <div *ngFor="let option of item.options">
+                    <input class="form-check-input" type="checkbox" name="options" (change)="toggleOption(option,i, $event)">
+                    <label class="form-check-label mx-2" for="options">{{option}}</label>
+                </div>
+                <div *ngIf="item.other===true">
+                    <input class="form-check-input" type="checkbox" name="otherInput" [(ngModel)]="otherInput[i]">
+                    <label class="form-check-label mx-2" for="otherInput">
+                    Other
+                    </label>
+                    <div *ngIf="otherInput[i]">
+                        <input type='text' class="my-1 form-control" placeholder="Specify your answer" [(ngModel)]="otherOption[i]">
+                    </div>
+                </div>
+            </ng-template>     
+        </div>
+    </div>
+    <div class="text-primary my-3" type="button" (click)="openModel()"><u>Add New Question</u></div>
+    <button type="button" class="btn btn-primary" *ngIf="submitAnswers" (click)="onSubmit()" [disabled]="!answersValid()">Submit</button>
+</div>
+<div class="modal" id="builderModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <form class="modal-content" [formGroup]="questionForm" (ngSubmit)="submit()">
+        <div class="modal-header">
+          <h5 class="modal-title">Add Question</h5>
+          <button type="button" class="close" (click)="closeModel()">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="form-group">
+            <label for="question" class="form-label">Question Type</label>   
+            <select class="form-control custom-select" id="question" formControlName="questionType">
+                <option value="para" selected>Paragraph</option>
+                <option value="list">Checkbox list</option>
+              </select>
+          </div>
+          <div class="form-group my-3">
+            <label for="text" class="form-label">Question Text</label>   
+            <input class="form-control" id="text" formControlName="questionText">
+          </div>
+          <div class="form-group my-3" formArrayName="options" *ngIf="questionForm.get('questionType')?.value === 'list'">
+            <label for="options" class="form-label">Options</label>   
+            <div *ngFor="let option of optionControls.controls; let i=index" class="input-group mb-3">
+                <input type="text" class="form-control" [formControlName]="i" >
+                <div class="input-group-append">
+                    <button class="btn btn-danger" type="button" (click)="removeOption(i)">Remove</button>
+                </div>
+            </div>
+            <div>
+                <button class="btn btn-secondary" type="button" (click)="addOption()">Add Option</button>
+            </div>
+          </div>
+            <div  *ngIf="questionForm.get('questionType')?.value === 'list'">
+                <input class="form-check-input mx-2" type="checkbox" id="other" formControlName="other"> 
+                <label class="form-check-label" for="other">
+                    Allow user to specify their own answer
+                </label>
+            </div>
+            <div>
+                <input class="form-check-input mx-2" type="checkbox" id="required" formControlName="required"> 
+                <label class="form-check-label" for="required">
+                    This Question is required
+                </label>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" (click)="closeModel()">Close</button>
+            <button type="submit" class="btn btn-primary" [disabled]="!questionForm.valid">Save Question</button>
+        </div>
+    </form>
+    </div>
+</div>
