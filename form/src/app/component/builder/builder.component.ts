@@ -117,14 +117,8 @@ export class BuilderComponent {
         const answer = this.answerData[i];
         const otherInput = this.otherInput[i];
         const otherOption = this.otherOption[i];
-        // console.log(answer);
         if (question.required) {
             requiredCount++;
-            // if (question.questionType === 'para') {
-            //     if (answer) {
-            //         validCount++;
-            //     }
-            // } else {
               if(answer && answer.length && !otherInput){
                 validCount++;
               }
