@@ -1,8 +1,7 @@
 import { Component } from '@angular/core';
-import { FormArray, FormBuilder,FormGroup,Validators } from '@angular/forms';
+import { FormArray, FormBuilder,Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { of } from 'rxjs';
-import { DataService } from 'src/app/service/data.service';
+import { DataService, Question, QuestionWithAnswer } from 'src/app/service/data.service';
 
 @Component({
   selector: 'app-builder',
@@ -10,21 +9,23 @@ import { DataService } from 'src/app/service/data.service';
   styleUrls: ['./builder.component.css']
 })
 export class BuilderComponent {
-  questionData:any[]=[];
-  // other:any=[];
-  answerData:any=[];
-  optionData:any=[];
+  answerData:QuestionWithAnswer[]=[];
   submitAnswer:boolean=false;
   questionForm = this.fb.group({
     questionType:['para'],
     questionText: ['',Validators.required],
     options: this.fb.array([]),
-    other:[false],
+    allowOther:[false],
     required:[false],
   });
+  finalForm=this.fb.group({
+    quesWithAns:this.fb.array([]),
+  })
+
   constructor(private fb:FormBuilder, private router:Router,private service:DataService){
+  };
+  ngOnInit():void{
     this.questionForm.get('questionType')?.valueChanges.subscribe((value) => {
-      // console.log(this.questionForm.get('questionType')?.value)
       if (value === 'list') {
         this.addOption();
       } else {
@@ -33,51 +34,66 @@ export class BuilderComponent {
         }
       }
     });
-  };
-  ngOnInit():void{
-    of(this.service.getQuestion()).subscribe(data => {
-      this.questionData = data;
+    const questions: Question[] = this.service.getQuestion();
+    const quesWithAnsArray = this.finalForm.get('quesWithAns') as FormArray;
+    quesWithAnsArray.clear();
+    questions.forEach((question) => {
+      quesWithAnsArray.push(
+        this.fb.group({
+          questionType: question.questionType,
+          questionText: question.questionText,
+          required: question.required,
+          allowOther: question.allowOther,
+          options: [question.options],
+          answerText: question.answerText,
+          answerList: this.fb.array([]),
+          otherInput:question.otherInput,
+        })
+      );
+
     });
-    // of(this.service.getAnswers()).subscribe(data => {
-    //   this.answerData = data[0];
-    // });
-    // of(this.service.getOption()).subscribe(data => {
-    //   this.optionData = data[0];
-    // });
-    this.optionData = new Array(this.questionData.length).fill('');
-    this.answerData = new Array(this.questionData.length).fill('');
-    if(this.questionData.length>=1)
-    this.submitAnswer=true;
+    if(quesWithAnsArray && quesWithAnsArray.length)
+    this.submitAnswer=true;    
   }
+  
+  
+  
   toggleSpecify(event:any,index:any){
     if(event.target.checked){
-      const specify=document.getElementById('object'+index);
+      const specify=document.getElementById('other'+index);
       if(specify){
         specify.style.display='block';}
     }
     else{
-      const specify=document.getElementById('object'+index);
+      const specify=document.getElementById('other'+index);
       if(specify){
         specify.style.display='none';
       }
-      this.optionData[index]='';
     }
   }
-  toggleOption(option: any, index:number, event:any) {
-    if(!this.answerData[index]){
-      this.answerData[index]=[];
-    }
-    if(event.target.checked){
-      this.answerData[index].push(option);
-    }
-    else{
-      const i=this.answerData[index].indexOf(option);
-      if (i !== -1) {
-        this.answerData[index].splice(i, 1);
-      }
-    }
-  }
+  
+  handleOptions(e:any,index:number,j:number){ 
+    let i=0;
+    for(let item of this.quesWithAnsControls.controls){
+      if(i===index){
+        let answer=item.get('answerList')?.value?item.get('answerList')?.value:[];
+        // console.log(answer);     
+        if(e.target.checked){
+          answer.push(e.target.value);
+        }
+        else{
+          let t=0;
+          let valueToRemove = e.target.value;
+          let valueIndex = answer.findIndex((val: string) => val === valueToRemove);
 
+          if (valueIndex !== -1) {
+            answer.splice(valueIndex,1);
+          }
+        }
+      }
+      i++;
+    }
+  }
   get optionControls(){
     return this.questionForm.get('options') as FormArray;
   }
@@ -102,7 +118,7 @@ export class BuilderComponent {
       questionType: 'para',
       questionText: '',
       options: [],
-      other: false,
+      allowOther: false,
       required: false,
     });
     while (this.optionControls.length !== 0) {
@@ -110,38 +126,88 @@ export class BuilderComponent {
     }
   }
   onSubmit(){
-    this.questionData.push()
-    this.service.setOption(this.optionData);
-    this.service.setAnswer(this.answerData);
+    // console.log(this.finalForm.value);
+    let answerData: QuestionWithAnswer[]=[];
+    for(const item of this.quesWithAnsControls.controls){
+      const questionText=item.get('questionText')?.value;
+      let answer:string|string[];
+      if(item.get('questionType')?.value==='para'){
+        answer=`Answer: ${item.get('answerText')?.value}`;
+      }
+      else{ 
+        if(item.get('answerList')?.value){
+          answer=item.get('answerList')?.value; 
+          if(item.get('otherInput')?.value){
+            answer=[...answer,`Other: ${item.get('otherInput')?.value}`] 
+          }
+        }
+        else{
+          answer=`Other: ${item.get('otherInput')?.value}`;
+        }
+          if (Array.isArray(answer)) 
+            answer=answer.join('\n');
+            answer = `Selected Options: \n${answer}`;
+      }
+      answerData.push({questionText,answer});
+    }
+    this.service.setAnswer(answerData);
     this.router.navigate(['../form/answer']);
   }
-  submit(){
-    this.service.setQuestion(this.questionForm.value);
-    this.submitAnswer=true;
-    this.answerData.push('');
-    this.optionData.push('');
-    this.closeModel();
+  get quesWithAnsControls(): FormArray{
+    return this.finalForm.get('quesWithAns') as FormArray;
   }
-  
-  requiredCheck(): boolean{
-    let requiredCount = 0;
-    let validCount = 0;
-    for (let i = 0; i < this.questionData.length; i++) {
-      // const checkbox = document.getElementById('other'+i) as HTMLInputElement;
-        const question = this.questionData[i];
-        const answer = this.answerData[i];
-        const otherOption = this.optionData[i];
-        if (question.required) {
-            requiredCount++;  
-            if(answer && answer.length){
-              // if(otherOption)
-              validCount++;
-            }
-            else if(otherOption){
-              validCount++;
-            }
+  finalValidation(){
+    let index=0;
+    let count=0;
+    let total=0;
+    for(const item of this.quesWithAnsControls.controls){
+      if(item.get('required')?.value){
+        total++;
+        if(item.get('questionType')?.value==='list'){
+          const specify=document.getElementById('other'+index);
+          if(specify?.style.display==="block"){
+            if(item.get('otherInput')?.value)
+            count++;
+          }
+          else if(item.get('answerList')?.value?.length){
+            count++;
+          }
         }
-      }
-      return requiredCount === validCount;
+      else{
+        if(item.get('answerText')?.value)
+        count++;
+      }}
+      index++;
+    }
+
+    return count===total;
+  }
+  submit(){
+    this.submitAnswer=true;
+    const ques: Question={
+      questionType: this.questionForm.get('questionType')?.value || 'para',
+      questionText:this.questionForm.get('questionText')?.value||'',
+      options: (this.questionForm.get('options')?.value as string[])||[], 
+      allowOther: this.questionForm.get('allowOther')?.value || false,
+      required: this.questionForm.get('required')?.value || false,
+      answerText: (''),
+      answerList: ([]),
+      otherInput:(''),
+    }
+    this.service.setQuestion(ques);
+    const quesFormGroup = this.fb.group({
+      questionType: [ques.questionType],
+      questionText: [ques.questionText],
+      options: [ques.options],
+      allowOther: [ques.allowOther],
+      otherInput:[''],
+      required: [ques.required],
+      answerList: this.fb.array([]),
+      answerText: [''],
+    });
+
+    const quesWithAns = this.finalForm.get('quesWithAns') as FormArray;
+    quesWithAns.push(quesFormGroup);
+    this.closeModel();
   }
 }

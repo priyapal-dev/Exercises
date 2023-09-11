@@ -1,20 +1,9 @@
 <div class="container my-3">
     <h1>Review My Answers</h1>
-    <div class="card my-3" *ngFor="let item of questionData; let i = index">
+    <div class="card my-3" *ngFor="let item of questionWithAnswer; let i = index">
         <div class="card-body">
             <h5>{{item.questionText}}</h5>
-            <p *ngIf="item.questionType==='para'; else elseBlock">
-                Answer: {{answerData[0][i]}}
-            </p>
-            <ng-template #elseBlock>
-                <span>Selected Options:</span>
-                <li *ngFor="let ans of answerData[0][i]" class="list-unstyled">
-                    {{ans}}
-                </li>
-             <li *ngIf="optionData[0][i]!==''" class="list-unstyled">Other:
-               {{ optionData[0][i]}}
-             </li>
-            </ng-template>
+            <div [innerHTML]="replaceNewlines(item.answer)"></div>
         </div>
     </div>
     

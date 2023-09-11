@@ -4,41 +4,45 @@ import { BehaviorSubject } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
+
 export class DataService {
-  private questions: BehaviorSubject<any[]> = new BehaviorSubject<any[]>([]); 
-  private answers: BehaviorSubject<any[]> = new BehaviorSubject<any[]>([]);
-  private option: BehaviorSubject<any[]> = new BehaviorSubject<any[]>([]);
+  private questions: BehaviorSubject<Question[]> = new BehaviorSubject<Question[]>([]);
+  private questionsWithAnswers: BehaviorSubject<QuestionWithAnswer[]> = new BehaviorSubject<QuestionWithAnswer[]>([]); 
 
   constructor() { }
-  setOption(value:any){
-    // console.log(value);
-    // const current=this.option.value;
-    const current=[];
-    current.push(value);
-    // console.log(current);
-    this.option.next(current);
-    // console.log(this.option);
-    console.log(this.option.value);
-  }
-  setQuestion(value:any){
+  
+  setQuestion(value:Question){
     const current = this.questions.value; 
     current.push(value);
     this.questions.next(current);
+    // console.log(this.questionsSubject.value);
   }
-  setAnswer(value:any){
-    // const current = this.answers.value; 
-    const current=[];
-    current.push(value);
-    this.answers.next(current);
-    console.log(this.answers.value);
+  setAnswer(answer: QuestionWithAnswer[]) {
+    const current = [];
+    current.push(...answer);
+    this.questionsWithAnswers.next(current);
+    // console.log(this.questionsWithAnswers.value);
   }
   getQuestion(){
+    // console.log(this.questions.value);
     return this.questions.value;
   }
   getAnswers(){
-    return this.answers.value;
+    return this.questionsWithAnswers.value;
   }
-  getOption(){
-    return this.option.value;
-  }
+  
+}
+export interface Question{
+  questionType: string;
+  questionText: string;
+  options?: string[];
+  allowOther?:boolean;
+  required:boolean;
+  answerText:string;
+  answerList: string[];
+  otherInput: string;
+}
+export interface QuestionWithAnswer{
+  questionText:string;
+  answer: string;
 }

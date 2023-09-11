@@ -1,34 +1,43 @@
 <div class="container my-3">
     <h1>Form Builder</h1>
-    
-    <div class="card my-3" *ngFor="let item of questionData; index as i">
-        <div class="card-header">
-             {{item.questionText}} 
-            <span class="badge bg-danger" *ngIf="item.required">Required</span>
-        </div>
-        <div class="card-body">
-            <textarea rows="4" class="w-100" *ngIf="item.questionType==='para'; else elseBlock" [(ngModel)]="answerData[i]"></textarea>
-            <ng-template #elseBlock>
-                <div *ngFor="let option of item.options">
-                    <input class="form-check-input" type="checkbox" name="options" (change)="toggleOption(option,i, $event)">
-                    <label class="form-check-label mx-2" for="options">
-                        {{option}} 
-                    </label>
-                </div>
-                <div *ngIf="item.other">
-                    <input class="form-check-input" type="checkbox" name="otherInput" id="{{'other' + i}}" (change)="toggleSpecify($event,i)">
-                    <label class="form-check-label mx-2" for="otherInput">
-                    Other
-                    </label>
-                    <div id="{{'object' + i}}" class="specify">
-                        <input type='text' class="my-1 form-control" placeholder="Specify your answer" [(ngModel)]="optionData[i]">
+    <form [formGroup]="finalForm" (ngSubmit)="onSubmit()">
+        <div formArrayName="quesWithAns">
+            <div class="card my-3" *ngFor="let item of quesWithAnsControls.controls;let i=index">
+                <div [formGroupName]="i">
+                    <div class="card-header">
+                        {{item.get('questionText')?.value}} 
+                        <span class="badge bg-danger" *ngIf="item.get('required')?.value">Required</span>
+                    </div>
+                    <div class="card-body">
+                        <ng-container [ngSwitch]="item.get('questionType')?.value">
+                            <textarea rows="4" class="w-100" *ngSwitchCase="'para'" formControlName="answerText"></textarea>
+                                <div *ngSwitchCase="'list'">
+                                    <div formArrayName="options">
+                                        <div *ngFor="let option of item.get('options')?.value; let j=index">
+                                            <label class="form-check-label mx-2">
+                                                <input class="form-check-input" type="checkbox" value="{{option}}" (change)="handleOptions($event,i,j)">
+                                                {{option}}
+                                            </label>
+                                        </div>
+                                    </div>     
+                                    <div *ngIf="item.get('allowOther')?.value">
+                                        <label class="form-check-label mx-2" id="{{'otherCheckbox' + i}}" >
+                                            <input class="form-check-input" type="checkbox" id="{{'otherCheckbox' + i}}"  (change)="toggleSpecify($event,i)">
+                                            Other
+                                        </label>
+                                        <div id="{{'other' + i}}" class="specify">
+                                            <input type='text' class="my-1 form-control" placeholder="Specify your answer" formControlName="otherInput">
+                                        </div>
+                                    </div>
+                                </div>
+                        </ng-container>
                     </div>
                 </div>
-            </ng-template>     
+            </div>
         </div>
-    </div>
     <div class="text-primary my-3" type="button" (click)="openModel()"><u>Add New Question</u></div>
-    <button type="button" class="btn btn-primary" *ngIf='submitAnswer' (click)="onSubmit()" [disabled]="!requiredCheck()">Submit</button>
+    <button type="submit" class="btn btn-primary" *ngIf='submitAnswer' [disabled]="!finalValidation()">Submit</button>
+    </form>
 </div>
 <div class="modal" id="builderModal" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
@@ -64,8 +73,8 @@
             </div>
           </div>
             <div  *ngIf="questionForm.get('questionType')?.value === 'list'">
-                <input class="form-check-input mx-2" type="checkbox" id="other" formControlName="other"> 
-                <label class="form-check-label" for="other">
+                <input class="form-check-input mx-2" type="checkbox" id="allowOther" formControlName="allowOther"> 
+                <label class="form-check-label" for="allowOther">
                     Allow user to specify their own answer
                 </label>
             </div>
