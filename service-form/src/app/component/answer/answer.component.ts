@@ -12,7 +12,7 @@ export class AnswerComponent {
   constructor(private router:Router, private service:DataService){};
   ngOnInit(){
     this.questionWithAnswer = this.service.getAnswers();
-    
+    // console.log(this.questionWithAnswer);
   }
   onClick(){
     this.router.navigate(['../form/builder'])

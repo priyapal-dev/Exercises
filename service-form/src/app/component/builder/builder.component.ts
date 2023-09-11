@@ -58,7 +58,9 @@ export class BuilderComponent {
   
   
   
-  toggleSpecify(event:any,index:any){
+  toggleSpecify(event:Event,index:number){
+    if(event.target instanceof HTMLInputElement){
+      const specifyControl = this.quesWithAnsControls.at(index).get('otherInput');
     if(event.target.checked){
       const specify=document.getElementById('other'+index);
       if(specify){
@@ -68,11 +70,17 @@ export class BuilderComponent {
       const specify=document.getElementById('other'+index);
       if(specify){
         specify.style.display='none';
+        // const inputField = specify.querySelector('input[type="text"]');
+        // if (inputField instanceof HTMLInputElement) {
+        //   inputField.value = ''; 
+        // }
+        specifyControl?.setValue('')
       }
-    }
+    }}
   }
   
-  handleOptions(e:any,index:number,j:number){ 
+  handleOptions(e:Event,index:number){ 
+    if(e.target instanceof HTMLInputElement){
     let i=0;
     for(let item of this.quesWithAnsControls.controls){
       if(i===index){
@@ -92,7 +100,7 @@ export class BuilderComponent {
         }
       }
       i++;
-    }
+    }}
   }
   get optionControls(){
     return this.questionForm.get('options') as FormArray;
